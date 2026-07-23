@@ -1,0 +1,20 @@
+{% extends "shop/base.html" %}
+{% block title %}Confirm Account Deactivation - Cosmos Custom Shirts{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-6">
+        <div class="card bg-dark border-secondary shadow text-center">
+            <div class="card-body p-4">
+                <h2 class="card-title mb-3">Deactivate demo account?</h2>
+                <p>This will sign you out and disable this account.</p>
+                <form method="post" action="{% url 'account:delete_user' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Deactivate Account</button>
+                    <a href="{% url 'account:dashboard' %}" class="btn btn-outline-light">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

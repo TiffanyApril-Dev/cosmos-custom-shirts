@@ -1,0 +1,94 @@
+from django import forms
+from django.contrib.auth.forms import AuthenticationForm
+
+from .models import UserBase
+
+
+class UserLoginForm(AuthenticationForm):
+
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'form-control mb-3', 'placeholder': 'Email', 'id': 'login-username'}))
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': 'Password',
+            'id': 'login-pwd',
+        }
+    ))
+
+
+class RegistrationForm(forms.ModelForm):
+
+    user_name = forms.CharField(
+        label='Enter Username', min_length=4, max_length=50, help_text='Required')
+    email = forms.EmailField(max_length=100, help_text='Required', error_messages={
+        'required': 'Sorry, you will need an email'})
+    password = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(
+        label='Repeat password', widget=forms.PasswordInput)
+
+    class Meta:
+        model = UserBase
+        fields = ('user_name', 'email',)
+
+    def clean_user_name(self):
+        user_name = self.cleaned_data['user_name'].lower()
+        r = UserBase.objects.filter(user_name=user_name)
+        if r.count():
+            raise forms.ValidationError("Username already exists")
+        return user_name
+
+    def clean_password2(self):
+        cd = self.cleaned_data
+        if cd['password'] != cd['password2']:
+            raise forms.ValidationError('Passwords do not match.')
+        return cd['password2']
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if UserBase.objects.filter(email=email).exists():
+            raise forms.ValidationError(
+                'Please use another Email, that is already taken')
+        return email
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['user_name'].widget.attrs.update(
+            {'class': 'form-control mb-3', 'placeholder': 'Username'})
+        self.fields['email'].widget.attrs.update(
+            {'class': 'form-control mb-3', 'placeholder': 'E-mail', 'name': 'email', 'id': 'id_email'})
+        self.fields['password'].widget.attrs.update(
+            {'class': 'form-control mb-3', 'placeholder': 'Password'})
+        self.fields['password2'].widget.attrs.update(
+            {'class': 'form-control', 'placeholder': 'Repeat Password'})
+
+
+class UserEditForm(forms.ModelForm):
+
+    email = forms.EmailField(
+        label='Account email (cannot be changed)', max_length=200,
+        widget=forms.TextInput(attrs={'class': 'form-control mb-3', 'readonly': 'readonly'}))
+
+    user_name = forms.CharField(
+        label='Username', min_length=4, max_length=50,
+        widget=forms.TextInput(attrs={'class': 'form-control mb-3', 'readonly': 'readonly'}))
+
+    class Meta:
+        model = UserBase
+        fields = ('email', 'user_name', 'first_name', 'about', 'phone_number',
+                  'postcode', 'address_line_1', 'address_line_2', 'town_city', 'country')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Apply bootstrap classes and customise widgets
+        for field_name in self.fields:
+            if field_name in ['email', 'user_name']:
+                continue
+            field = self.fields[field_name]
+            if field_name == 'about':
+                field.widget = forms.Textarea(attrs={'class': 'form-control mb-3', 'rows': 4})
+            else:
+                try:
+                    field.widget.attrs.update({'class': 'form-control mb-3'})
+                except Exception:
+                    pass

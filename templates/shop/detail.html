@@ -1,0 +1,130 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block title %}{{ design.name }} - Cosmos Custom Shirts{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        {% if design.image %}
+        <img src="{{ design.image.url }}" class="img-fluid rounded product-image" alt="{{ design.name }}">
+        {% else %}
+        <img src="https://via.placeholder.com/600?text=No+Image" class="img-fluid rounded product-image" alt="No image">
+        {% endif %}
+    </div>
+    <div class="col-md-6">
+        <h1 class="display-5">{{ design.name }}</h1>
+        <p class="text-muted">Category: {{ design.category.name|title }}</p>
+        <hr>
+        <p class="lead">{{ design.description }}</p>
+        <hr>
+        <h2 class="text-primary mb-1">${{ design.price }}</h2>
+        <p class="small text-muted mb-4">Sample price for demonstration only</p>
+
+        {% if has_variants %}
+        <p class="text-success mb-4"><strong>In Stock</strong></p>
+
+        <!-- Product Customization Form -->
+        <form id="product-options" class="product-options">
+            {% csrf_token %}
+            <!-- Size Selection -->
+            <div class="mb-4">
+                <label for="size" class="form-label">Select Size</label>
+                <select class="form-select" id="size" name="size" required>
+                    <option value="" selected>Choose a size...</option>
+                    {% for size in sizes %}<option value="{{ size }}">{{ size }}</option>{% endfor %}
+                </select>
+            </div>
+
+            <!-- Fabric Selection -->
+            <div class="mb-4">
+                <label class="form-label">Select Fabric</label>
+                <select class="form-select" id="fabric" name="fabric" required>
+                    {% for fabric in fabrics %}<option value="{{ fabric }}">{{ fabric|title }}</option>{% endfor %}
+                </select>
+            </div>
+
+            <!-- Color Selection -->
+            <div class="mb-4">
+                <label class="form-label">Select Shirt Color</label>
+                <select class="form-select" id="color" name="color" required>
+                    {% for color in colors %}<option value="{{ color }}">{{ color|title }}</option>{% endfor %}
+                </select>
+            </div>
+
+            <hr>
+
+            <!-- Add to Cart Button -->
+            <button id="add-to-cart-button" type="button" class="btn btn-primary btn-lg w-100 mb-2" value="{{ design.id }}">
+                🚀 Add to Demo Cart
+            </button>
+            <p id="cart-feedback" class="small mb-0"></p>
+        </form>
+
+        {% else %}
+        <p class="text-danger"><strong>Out of Stock</strong></p>
+        <button class="btn btn-secondary btn-lg w-100" disabled>Out of Stock</button>
+        {% endif %}
+
+        <hr>
+        <a href="{% url 'shop:all_designs' %}" class="btn btn-outline-secondary">← Back to All Designs</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.getElementById('add-to-cart-button').addEventListener('click', async function () {
+        const feedback = document.getElementById('cart-feedback');
+
+        const size = document.getElementById('size').value;
+        const fabric = document.getElementById('fabric').value;
+        const color = document.getElementById('color').value;
+        const designId = this.value;
+
+        if (!size) {
+            feedback.className = 'small text-danger mb-0';
+            feedback.textContent = 'Please select a size before adding to cart.';
+            return;
+        }
+
+        const body = new URLSearchParams({
+            action: 'post',
+            designid: designId,
+            size: size,
+            fabric: fabric,
+            color: color,
+        });
+
+        try {
+            const response = await fetch('{% url "basket:basket_add" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+                body: body.toString(),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                feedback.className = 'small text-danger mb-0';
+                feedback.textContent = data.error || 'Could not add item to cart.';
+                return;
+            }
+
+            const cartCount = document.getElementById('cart-count');
+            if (cartCount) {
+                cartCount.textContent = data.cart_count;
+            }
+
+            feedback.className = 'small text-success mb-0';
+            feedback.textContent = 'Added to cart successfully.';
+        } catch (error) {
+            feedback.className = 'small text-danger mb-0';
+            feedback.textContent = 'Network error: please try again.';
+        }
+    });
+</script>
+{% endblock %}

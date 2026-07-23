@@ -1,0 +1,41 @@
+{% extends "shop/base.html" %}
+{% block title %}Login – Cosmos Custom Shirts{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-6 col-lg-5">
+        <div class="card bg-dark border-secondary shadow">
+            <div class="card-body p-4">
+                <h2 class="card-title text-center mb-1"> Login</h2>
+                <p class="text-center text-muted mb-4">Welcome back {{ user.username }}</p>
+
+                {% if form.errors %}
+                <div class="alert alert-danger" role="alert">
+                    Your email or password was incorrect. Please try again.
+                </div>
+                {% endif %}
+
+                <form action="." method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        {{ form.username }}
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Password</label>
+                        {{ form.password }}
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 py-2">Login</button>
+                    <p class="text-center mt-2 mb-0">
+                        <a href="{% url 'account:password_reset' %}" class="small">Forgot your password?</a>
+                    </p>
+                </form>
+
+                <p class="text-center mt-3 mb-0">
+                    Don't have an account? <a href="{% url 'account:register' %}">Register here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

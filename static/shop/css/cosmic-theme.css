@@ -1,0 +1,419 @@
+/*
+ * Cosmos Custom Shirts - Space Theme Stylesheet
+ * A futuristic, cosmic-themed design for the t-shirt shop
+ */
+
+/* ==========================================
+   GLOBAL STYLES & LAYOUT
+   ========================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom, #0B0D21, #1a1042, #0B0D21);
+    background-attachment: fixed;
+    color: #F8F9FA;
+    font-family: 'Rajdhani', sans-serif;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* ==========================================
+   STARFIELD BACKGROUND ANIMATION
+   ========================================== */
+
+/* Animated starfield with twinkling effect */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+        radial-gradient(2px 2px at 60px 70px, #fff, transparent),
+        radial-gradient(1px 1px at 50px 50px, #ddd, transparent),
+        radial-gradient(1px 1px at 130px 80px, #fff, transparent),
+        radial-gradient(2px 2px at 90px 10px, #fff, transparent);
+    background-size: 200px 200px;
+    background-repeat: repeat;
+    animation: twinkle 4s ease-in-out infinite;
+    opacity: 0.5;
+    z-index: 0;
+    pointer-events: none;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.8; }
+}
+
+/* ==========================================
+   TYPOGRAPHY
+   ========================================== */
+
+h1, h2, h3, h4, h5, h6, .navbar-brand {
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(107, 79, 187, 0.5);
+}
+
+.navbar-brand {
+    font-weight: 900;
+    font-size: 1.5rem;
+    background: linear-gradient(135deg, #00D9FF, #6B4FBB, #E74C8C);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Display headings with gradient effect */
+.display-4, .display-5 {
+    background: linear-gradient(135deg, #00D9FF, #E74C8C);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    color: rgba(255, 255, 255, 0.95);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 400;
+    line-height: 1.65;
+    letter-spacing: 0.035em;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.75);
+}
+
+/* Price styling */
+.h4 {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+}
+
+/* ==========================================
+   NAVIGATION BAR
+   ========================================== */
+
+.navbar {
+    background: rgba(11, 13, 33, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid rgba(107, 79, 187, 0.3);
+    box-shadow: 0 5px 30px rgba(107, 79, 187, 0.3);
+    position: relative;
+    z-index: 1000;
+}
+
+.nav-link {
+    color: #F8F9FA !important;
+    transition: all 0.3s;
+    font-weight: 600;
+}
+
+.nav-link:hover {
+    color: #00D9FF !important;
+    text-shadow: 0 0 10px rgba(0, 217, 255, 0.8);
+}
+
+.dropdown-menu {
+    background: rgba(11, 13, 33, 0.98);
+    border: 1px solid rgba(107, 79, 187, 0.4);
+    backdrop-filter: blur(10px);
+}
+
+.dropdown-item {
+    color: #F8F9FA;
+    transition: all 0.3s;
+}
+
+.dropdown-item:hover {
+    background: rgba(107, 79, 187, 0.3);
+    color: #00D9FF;
+}
+
+/* ==========================================
+   MAIN CONTENT AREA
+   ========================================== */
+
+main {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+}
+
+/* ==========================================
+   CARDS
+   ========================================== */
+
+.card {
+    background: rgba(11, 13, 33, 0.8);
+    border: 1px solid rgba(107, 79, 187, 0.3);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s;
+}
+
+.card-body {
+    color: #F8F9FA;
+}
+
+.card-title a {
+    color: #F8F9FA !important;
+}
+
+.design-card {
+    transition: all 0.3s;
+}
+
+.design-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 40px rgba(0, 217, 255, 0.4), 0 0 60px rgba(107, 79, 187, 0.3);
+    border-color: rgba(0, 217, 255, 0.6);
+}
+
+.card-img-top {
+    border-bottom: 2px solid rgba(107, 79, 187, 0.3);
+}
+
+/* ==========================================
+   BUTTONS
+   ========================================== */
+
+.btn-primary {
+    background: linear-gradient(135deg, #6B4FBB, #E74C8C);
+    border: none;
+    box-shadow: 0 0 20px rgba(107, 79, 187, 0.4);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #E74C8C, #6B4FBB);
+    box-shadow: 0 0 30px rgba(231, 76, 140, 0.6);
+    transform: translateY(-2px);
+}
+
+.btn-outline-secondary {
+    border-color: rgba(107, 79, 187, 0.6);
+    color: #F8F9FA;
+    transition: all 0.3s;
+}
+
+.btn-outline-secondary:hover {
+    background: rgba(107, 79, 187, 0.3);
+    border-color: #00D9FF;
+    color: #00D9FF;
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+}
+
+.btn-lg {
+    padding: 15px 40px;
+    font-size: 1.1rem;
+}
+
+/* ==========================================
+   BADGES
+   ========================================== */
+
+.badge {
+    font-weight: 600;
+    padding: 8px 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.bg-success {
+    background: linear-gradient(135deg, #10B981, #059669) !important;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+}
+
+.bg-danger {
+    background: linear-gradient(135deg, #EF4444, #DC2626) !important;
+}
+
+/* ==========================================
+   TEXT COLORS
+   ========================================== */
+
+.text-primary {
+    color: #00D9FF !important;
+    text-shadow: 0 0 10px rgba(0, 217, 255, 0.3);
+}
+
+.text-muted {
+    color: #ADB5BD !important;
+}
+
+/* ==========================================
+   FOOTER
+   ========================================== */
+
+footer {
+    background: rgba(11, 13, 33, 0.95);
+    border-top: 2px solid rgba(107, 79, 187, 0.3);
+    padding: 30px 0;
+    margin-top: 60px;
+    position: relative;
+    z-index: 1;
+}
+
+footer p {
+    color: #F8F9FA;
+}
+
+/* ==========================================
+   LINKS
+   ========================================== */
+
+a {
+    transition: all 0.3s;
+}
+
+/* ==========================================
+   HORIZONTAL RULES
+   ========================================== */
+
+hr {
+    border-color: rgba(107, 79, 187, 0.3);
+    opacity: 1;
+}
+
+/* ==========================================
+   PRODUCT DETAIL PAGE STYLES
+   ========================================== */
+
+/* Product image styling */
+.product-image {
+    border: 2px solid rgba(107, 79, 187, 0.3);
+    box-shadow: 0 0 30px rgba(0, 217, 255, 0.2);
+    transition: all 0.3s;
+}
+
+.product-image:hover {
+    box-shadow: 0 0 50px rgba(0, 217, 255, 0.4);
+    border-color: rgba(0, 217, 255, 0.5);
+}
+
+/* ==========================================
+   FORM ELEMENTS
+   ========================================== */
+
+.form-label {
+    color: #00D9FF;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.form-select {
+    background: rgba(11, 13, 33, 0.8);
+    border: 2px solid rgba(107, 79, 187, 0.4);
+    color: #F8F9FA;
+    padding: 12px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.form-select:focus {
+    background: rgba(11, 13, 33, 0.9);
+    border-color: #00D9FF;
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+    color: #F8F9FA;
+}
+
+.form-select option {
+    background: #0B0D21;
+    color: #F8F9FA;
+}
+
+/* Radio buttons */
+.form-check {
+    padding: 10px;
+    margin-bottom: 8px;
+    border: 2px solid rgba(107, 79, 187, 0.3);
+    border-radius: 8px;
+    transition: all 0.3s;
+    background: rgba(11, 13, 33, 0.5);
+}
+
+.form-check:hover {
+    border-color: rgba(0, 217, 255, 0.5);
+    background: rgba(107, 79, 187, 0.2);
+}
+
+.form-check-input:checked ~ .form-check-label {
+    color: #00D9FF;
+}
+
+.form-check-input:checked {
+    background-color: #6B4FBB;
+    border-color: #00D9FF;
+}
+
+.form-check-label {
+    color: #F8F9FA;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* ==========================================
+   COLOR SWATCHES
+   ========================================== */
+
+.color-swatches {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.color-swatch {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 3px solid transparent;
+    position: relative;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.color-swatch:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 25px currentColor;
+}
+
+.color-swatch.active {
+    border-color: #00D9FF;
+    box-shadow: 0 0 30px #00D9FF;
+    transform: scale(1.2);
+}
+
+
+/* Cosmic black swatch needs special treatment for checkmark visibility */
+.color-swatch[data-color="cosmic-black"]::after {
+    color: #00D9FF;
+}
+
+/* ==========================================
+   PRODUCT OPTIONS CONTAINER
+   ========================================== */
+
+.product-options {
+    background: rgba(11, 13, 33, 0.6);
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid rgba(107, 79, 187, 0.3);
+    margin-bottom: 20px;
+}

@@ -1,0 +1,17 @@
+{% extends "shop/base.html" %}
+{% block title %}Activation Invalid – Cosmos Custom Shirts{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-6 col-lg-5">
+        <div class="card bg-dark border-danger shadow text-center">
+            <div class="card-body p-4">
+                <h2 class="card-title text-danger mb-3">Activation Error</h2>
+                <p>This activation link is invalid or has expired.</p>
+                <p class="text-muted">Please try registering again or contact support.</p>
+                <a href="{% url 'account:register' %}" class="btn btn-primary mt-2">Register Again</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

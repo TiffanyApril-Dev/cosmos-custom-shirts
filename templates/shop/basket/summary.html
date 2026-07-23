@@ -1,0 +1,185 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block title %}Cart Summary - Cosmos Custom Shirts{% endblock %}
+
+{% block content %}
+<div class="alert alert-warning" role="alert">
+    This cart is for demonstration only. Nothing here can be purchased, and no payment will be collected.
+</div>
+<div class="row mb-4">
+    <div class="col-12 d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="display-6 mb-1">Cart Summary</h1>
+            <p class="text-muted mb-0">Review, update, or delete your selected shirt options</p>
+        </div>
+        <a href="{% url 'shop:all_designs' %}" class="btn btn-outline-secondary">← Continue Shopping</a>
+    </div>
+</div>
+
+{% if basket|length %}
+<div id="cart-items-container">
+    {% for item in basket %}
+    <div class="card mb-3" data-item-key="{{ item.key }}">
+        <div class="card-body">
+            <div class="row g-3 align-items-center">
+                <div class="col-md-2">
+                    {% if item.design.image %}
+                    <img src="{{ item.design.image.url }}" alt="{{ item.design.name }}" class="img-fluid rounded">
+                    {% else %}
+                    <img src="https://via.placeholder.com/300?text=No+Image" alt="No image" class="img-fluid rounded">
+                    {% endif %}
+                </div>
+                <div class="col-md-4">
+                    <h5 class="mb-1">{{ item.design.name }}</h5>
+                    <p class="text-muted mb-2">${{ item.price }}</p>
+                    <a href="{{ item.design.get_absolute_url }}" class="small text-decoration-none">View design</a>
+                </div>
+
+                <div class="col-md-2">
+                    <label for="size-{{ item.key }}" class="form-label">Size</label>
+                    <select id="size-{{ item.key }}" class="form-select form-select-sm">
+                        {% for size in item.valid_sizes %}
+                        <option value="{{ size }}" {% if item.size == size %}selected{% endif %}>{{ size }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label for="fabric-{{ item.key }}" class="form-label">Fabric</label>
+                    <select id="fabric-{{ item.key }}" class="form-select form-select-sm">
+                        {% for fabric in item.valid_fabrics %}
+                        <option value="{{ fabric }}" {% if item.fabric == fabric %}selected{% endif %}>{{ fabric|title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label for="color-{{ item.key }}" class="form-label">Color</label>
+                    <select id="color-{{ item.key }}" class="form-select form-select-sm">
+                        {% for color in item.valid_colors %}
+                        <option value="{{ color }}" {% if item.color == color %}selected{% endif %}>{{ color|title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-12 d-flex gap-2 justify-content-end">
+                    <button type="button" class="btn btn-outline-primary btn-sm update-item" data-item-key="{{ item.key }}">
+                        Update
+                    </button>
+                    <button type="button" class="btn btn-outline-danger btn-sm delete-item" data-item-key="{{ item.key }}">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="row">
+    <div class="col-12 text-end">
+        <h4>Subtotal: $<span id="subtotal">{{ basket.get_total_price|floatformat:2 }}</span></h4>
+    </div>
+</div>
+
+<p id="summary-feedback" class="small"></p>
+{% else %}
+<div class="alert alert-info">
+    Your cart is currently empty.
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const feedback = document.getElementById('summary-feedback');
+
+    function updateHeaderCount(newCount) {
+        const cartCount = document.getElementById('cart-count');
+        if (cartCount) {
+            cartCount.textContent = newCount;
+        }
+    }
+
+    function setFeedback(message, isError) {
+        if (!feedback) return;
+        feedback.className = isError ? 'small text-danger' : 'small text-success';
+        feedback.textContent = message;
+    }
+
+    async function postCartAction(url, payload) {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+            body: new URLSearchParams(payload).toString(),
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.error || 'Request failed');
+        }
+        return data;
+    }
+
+    // Learning note:
+    // This event wiring pattern is similar to W3Schools button + JavaScript examples:
+    // select multiple buttons, attach click listeners, and read data-* attributes.
+    document.querySelectorAll('.update-item').forEach((button) => {
+        button.addEventListener('click', async function () {
+            const itemKey = this.dataset.itemKey;
+            const size = document.getElementById(`size-${itemKey}`).value;
+            const fabric = document.getElementById(`fabric-${itemKey}`).value;
+            const color = document.getElementById(`color-${itemKey}`).value;
+
+            try {
+                const data = await postCartAction('{% url "basket:basket_update" %}', {
+                    action: 'post',
+                    itemkey: itemKey,
+                    size: size,
+                    fabric: fabric,
+                    color: color,
+                });
+
+                document.getElementById('subtotal').textContent = data.subtotal;
+                updateHeaderCount(data.cart_count);
+                setFeedback('Cart item updated.', false);
+            } catch (error) {
+                setFeedback(error.message, true);
+            }
+        });
+    });
+
+    document.querySelectorAll('.delete-item').forEach((button) => {
+        button.addEventListener('click', async function () {
+            const itemKey = this.dataset.itemKey;
+            const card = document.querySelector(`[data-item-key="${itemKey}"]`);
+
+            try {
+                const data = await postCartAction('{% url "basket:basket_delete" %}', {
+                    action: 'post',
+                    itemkey: itemKey,
+                });
+
+                if (card) {
+                    card.remove();
+                }
+
+                document.getElementById('subtotal').textContent = data.subtotal;
+                updateHeaderCount(data.cart_count);
+                setFeedback('Cart item deleted.', false);
+
+                // If cart is now empty, reload once so the empty-state block is shown.
+                if (data.cart_count === 0) {
+                    window.location.reload();
+                }
+            } catch (error) {
+                setFeedback(error.message, true);
+            }
+        });
+    });
+</script>
+{% endblock %}

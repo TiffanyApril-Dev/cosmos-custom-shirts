@@ -1,0 +1,277 @@
+[
+    {
+        "model":  "account.userbase",
+        "pk":  1,
+        "fields":  {
+                       "password":  "!",
+                       "last_login":  null,
+                       "is_superuser":  false,
+                       "email":  "catalog@cosmos.invalid",
+                       "user_name":  "catalog",
+                       "first_name":  "Demo Catalog",
+                       "about":  "Non-login owner for seeded portfolio catalog content.",
+                       "country":  "",
+                       "phone_number":  "",
+                       "postcode":  "",
+                       "address_line_1":  "",
+                       "address_line_2":  "",
+                       "town_city":  "",
+                       "is_active":  false,
+                       "is_staff":  false,
+                       "activation_key":  null,
+                       "activation_created_at":  null,
+                       "created":  "2026-01-01T00:00:00Z",
+                       "updated":  "2026-01-01T00:00:00Z",
+                       "groups":  [
+
+                                  ],
+                       "user_permissions":  [
+
+                                            ]
+                   }
+    },
+    {
+        "model":  "shop.category",
+        "pk":  1,
+        "fields":  {
+                       "name":  "Art",
+                       "slug":  "art"
+                   }
+    },
+    {
+        "model":  "shop.category",
+        "pk":  2,
+        "fields":  {
+                       "name":  "Holidays",
+                       "slug":  "holidays"
+                   }
+    },
+    {
+        "model":  "shop.category",
+        "pk":  3,
+        "fields":  {
+                       "name":  "Sports",
+                       "slug":  "sports"
+                   }
+    },
+    {
+        "model":  "shop.category",
+        "pk":  4,
+        "fields":  {
+                       "name":  "Humor",
+                       "slug":  "humor"
+                   }
+    },
+    {
+        "model":  "shop.category",
+        "pk":  6,
+        "fields":  {
+                       "name":  "Nature",
+                       "slug":  "nature"
+                   }
+    },
+    {
+        "model":  "shop.design",
+        "pk":  1,
+        "fields":  {
+                       "category":  3,
+                       "created_by":  1,
+                       "name":  "Soccer Hero",
+                       "description":  "amputee playing soccer.",
+                       "image":  "images/soccer.jpg",
+                       "slug":  "soccer-hero",
+                       "price":  "39.99",
+                       "in_stock":  true,
+                       "is_active":  true,
+                       "created":  "2026-03-01T01:36:40.474Z",
+                       "updated":  "2026-03-01T01:36:40.474Z"
+                   }
+    },
+    {
+        "model":  "shop.design",
+        "pk":  2,
+        "fields":  {
+                       "category":  2,
+                       "created_by":  1,
+                       "name":  "Easter Bunny",
+                       "description":  "Cute bunny in a basket full of daffodils.",
+                       "image":  "images/easterBunny.jpg",
+                       "slug":  "easter-bunny",
+                       "price":  "29.99",
+                       "in_stock":  true,
+                       "is_active":  true,
+                       "created":  "2026-03-01T01:37:38.175Z",
+                       "updated":  "2026-03-01T01:37:38.175Z"
+                   }
+    },
+    {
+        "model":  "shop.design",
+        "pk":  3,
+        "fields":  {
+                       "category":  2,
+                       "created_by":  1,
+                       "name":  "Pumpkin Heads",
+                       "description":  "A couple wearing jack-o-lanterns over their heads.",
+                       "image":  "images/pumpkinheads.jpg",
+                       "slug":  "pumpkin-heads",
+                       "price":  "29.99",
+                       "in_stock":  true,
+                       "is_active":  true,
+                       "created":  "2026-03-01T01:38:49.200Z",
+                       "updated":  "2026-03-01T01:38:49.200Z"
+                   }
+    },
+    {
+        "model":  "shop.design",
+        "pk":  4,
+        "fields":  {
+                       "category":  1,
+                       "created_by":  1,
+                       "name":  "Abstract Oils On Canvas",
+                       "description":  "Bright colors overlaying one another with geometric shapes blended in.",
+                       "image":  "images/abstract_canvas_art.jpg",
+                       "slug":  "abstract-oils-on-canvas",
+                       "price":  "49.99",
+                       "in_stock":  true,
+                       "is_active":  true,
+                       "created":  "2026-03-01T01:41:05.527Z",
+                       "updated":  "2026-03-01T01:41:05.527Z"
+                   }
+    },
+    {
+        "model":  "shop.design",
+        "pk":  5,
+        "fields":  {
+                       "category":  1,
+                       "created_by":  1,
+                       "name":  "Hypercolor Fluid Art",
+                       "description":  "Rainbow mix of colors swirled in flowing paint.",
+                       "image":  "images/hypercolor_fluidArt.jpg",
+                       "slug":  "hypercolor-fluid-art",
+                       "price":  "39.99",
+                       "in_stock":  true,
+                       "is_active":  true,
+                       "created":  "2026-03-01T01:42:41.150Z",
+                       "updated":  "2026-03-01T01:42:41.150Z"
+                   }
+    },
+    {
+        "model":  "shop.design",
+        "pk":  6,
+        "fields":  {
+                       "category":  1,
+                       "created_by":  1,
+                       "name":  "Sparkler Motion Photography",
+                       "description":  "Circular rings of sparkling light made with professional photography motion capture.",
+                       "image":  "images/sparklers.jpg",
+                       "slug":  "sparkler-motion-photography",
+                       "price":  "49.99",
+                       "in_stock":  true,
+                       "is_active":  true,
+                       "created":  "2026-03-01T01:44:21.340Z",
+                       "updated":  "2026-03-01T01:44:21.341Z"
+                   }
+    },
+    {
+        "model":  "shop.design",
+        "pk":  7,
+        "fields":  {
+                       "category":  6,
+                       "created_by":  1,
+                       "name":  "Aurora Borealis",
+                       "description":  "Stunning turquoise and green light swirling in the sky , tinting the white landscape with its hue.",
+                       "image":  "images/aurora.jpg",
+                       "slug":  "aurora-borealis",
+                       "price":  "49.99",
+                       "in_stock":  true,
+                       "is_active":  true,
+                       "created":  "2026-03-01T01:46:11.184Z",
+                       "updated":  "2026-03-01T01:46:11.184Z"
+                   }
+    },
+    {
+        "model":  "shop.design",
+        "pk":  8,
+        "fields":  {
+                       "category":  6,
+                       "created_by":  1,
+                       "name":  "Butterflies",
+                       "description":  "Tiny glowing blue butterflies floating around illuminating mushrooms.",
+                       "image":  "images/butterflies.jpg",
+                       "slug":  "butterflies",
+                       "price":  "59.99",
+                       "in_stock":  true,
+                       "is_active":  true,
+                       "created":  "2026-03-01T01:48:12.036Z",
+                       "updated":  "2026-03-01T01:48:12.036Z"
+                   }
+    },
+    {
+        "model":  "shop.design",
+        "pk":  9,
+        "fields":  {
+                       "category":  6,
+                       "created_by":  1,
+                       "name":  "Sunset Tree",
+                       "description":  "A beautiful pink and purple sunset behind a tree.",
+                       "image":  "images/sunset_tree.jpg",
+                       "slug":  "sunset-tree",
+                       "price":  "29.99",
+                       "in_stock":  true,
+                       "is_active":  true,
+                       "created":  "2026-03-01T01:49:35.728Z",
+                       "updated":  "2026-03-01T01:49:35.728Z"
+                   }
+    },
+    {
+        "model":  "shop.design",
+        "pk":  10,
+        "fields":  {
+                       "category":  4,
+                       "created_by":  1,
+                       "name":  "It Works On My Machine",
+                       "description":  "A sticker showing the keyboard emoji with the words \"IT WORKS on my machine\".",
+                       "image":  "images/itWorks.jpg",
+                       "slug":  "it-works-on-my-machine",
+                       "price":  "19.99",
+                       "in_stock":  true,
+                       "is_active":  true,
+                       "created":  "2026-03-01T01:51:37.473Z",
+                       "updated":  "2026-03-01T01:51:37.473Z"
+                   }
+    },
+    {
+        "model":  "shop.design",
+        "pk":  11,
+        "fields":  {
+                       "category":  4,
+                       "created_by":  1,
+                       "name":  "Mo\u0027A\u0027ning Lisa",
+                       "description":  "A reprint of the Mona Lisa with a Covid mask, and PPE.",
+                       "image":  "images/moanaLisa.jpg",
+                       "slug":  "moaning-lisa",
+                       "price":  "29.99",
+                       "in_stock":  true,
+                       "is_active":  true,
+                       "created":  "2026-03-01T01:53:12.339Z",
+                       "updated":  "2026-03-01T01:53:12.339Z"
+                   }
+    },
+    {
+        "model":  "shop.design",
+        "pk":  12,
+        "fields":  {
+                       "category":  3,
+                       "created_by":  1,
+                       "name":  "Woman Trainer",
+                       "description":  "Woman using suspension straps doing a suspension-training chest press.",
+                       "image":  "images/trainer.jpg",
+                       "slug":  "woman-trainer",
+                       "price":  "39.99",
+                       "in_stock":  true,
+                       "is_active":  true,
+                       "created":  "2026-03-02T03:52:58.049Z",
+                       "updated":  "2026-03-02T03:52:58.049Z"
+                   }
+    }
+]

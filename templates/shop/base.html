@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Cosmos Custom Shirts{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts - Space Theme -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Cosmos Custom Theme CSS -->
+    <link rel="stylesheet" href="{% static 'shop/css/cosmic-theme.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="alert alert-warning rounded-0 text-center mb-0" role="alert">
+        <strong>Portfolio demo:</strong> This is not a real store. No products,
+        payments, or orders are processed. Please do not enter real personal information.
+    </div>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'shop:all_designs' %}">Cosmos Custom Shirts</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'shop:all_designs' %}">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Categories
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+                            {% for c in categories %}
+                            <li><a class="dropdown-item" href="{{ c.get_absolute_url }}">{{ c.name|title }}</a></li>
+                            {% empty %}
+                            <li><a class="dropdown-item disabled" href="#">No categories yet</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-2" href="{% url 'basket:basket_summary' %}">
+                            <span>Demo Cart</span>
+                            <span id="cart-count" class="badge bg-info text-dark">{{ basket|length }}</span>
+                        </a>
+                    </li>
+                    {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-2" href="{% url 'account:dashboard' %}">
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <form method="post" action="{% url 'account:logout' %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="nav-link btn btn-link d-flex align-items-center gap-2" style="border:none;background:none;">
+                                <span aria-hidden="true">🚪</span>
+                                <span>Logout</span>
+                            </button>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-2" href="{% url 'account:login' %}">
+                            <span aria-hidden="true"></span>
+                            <span>Login</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-2" href="{% url 'account:register' %}">
+                            <span aria-hidden="true"></span>
+                            <span>Register</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container my-4">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="container">
+            <p class="mb-0">&copy; 2026 Cosmos Custom Shirts. All rights reserved.</p>
+            <p class="mb-0">Django portfolio project by Tiffany Morgan-Hill</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

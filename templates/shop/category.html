@@ -1,0 +1,50 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block title %}{{ category.name|title }} - Cosmos Custom Shirts{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="display-4">{{ category.name|title }}</h1>
+        <p class="lead text-muted">Explore designs in this cosmic category</p>
+        <a href="{% url 'shop:all_designs' %}" class="btn btn-outline-secondary">← Back to All Designs</a>
+    </div>
+</div>
+
+<div class="row">
+    {% for design in designs %}
+    <div class="col-md-4 col-lg-3 mb-4">
+        <div class="card design-card h-100">
+            <a href="{{ design.get_absolute_url }}" class="text-decoration-none">
+                {% if design.image %}
+                <img src="{{ design.image.url }}" class="card-img-top" alt="{{ design.name }}">
+                {% else %}
+                <img src="https://via.placeholder.com/300?text=No+Image" class="card-img-top" alt="No image">
+                {% endif %}
+            </a>
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title">
+                    <a href="{{ design.get_absolute_url }}" class="text-decoration-none text-dark">{{ design.name }}</a>
+                </h5>
+                <p class="card-text text-muted small">{{ design.category }}</p>
+                <p class="card-text flex-grow-1">{{ design.description|truncatewords:15 }}</p>
+                <div class="mt-auto">
+                    <p class="h4 text-primary mb-3">${{ design.price }}</p>
+                    {% if design.in_stock %}
+                    <span class="badge bg-success">In Stock</span>
+                    {% else %}
+                    <span class="badge bg-danger">Out of Stock</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+        <p class="lead">No designs available yet.</p>
+        <p class="text-muted">Check back soon or add some designs via the admin panel!</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

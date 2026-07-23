@@ -1,0 +1,36 @@
+{% extends "shop/base.html" %}
+{% block title %}Dashboard – Cosmos Custom Shirts{% endblock %}
+
+{% block content %}
+{% if request.user.is_authenticated %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-8">
+        <div class="card bg-dark border-secondary shadow">
+            <div class="card-body p-4">
+                <h2 class="card-title mb-1">Welcome, {{ request.user.user_name }}!</h2>
+                <p class="text-muted mb-4">This is your account dashboard.</p>
+                <ul class="list-group list-group-flush bg-dark">
+                    <li class="list-group-item bg-dark text-light border-secondary">
+                        <strong>Email:</strong> {{ request.user.email }}
+                    </li>
+                    <li class="list-group-item bg-dark text-light border-secondary">
+                        <strong>Username:</strong> {{ request.user.user_name }}
+                    </li>
+                    <li class="list-group-item bg-dark text-light border-secondary">
+                        <strong>Member since:</strong> {{ request.user.created|date:"F j, Y" }}
+                    </li>
+                </ul>
+                <div class="mt-4 d-flex gap-2 flex-wrap">
+                    <a href="{% url 'account:edit_details' %}" class="btn btn-outline-primary"> Edit Profile</a>
+                    <a href="{% url 'account:delete_user_confirm' %}" class="btn btn-outline-warning">Deactivate Account</a>
+                    <form method="post" action="{% url 'account:logout' %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-danger"> Logout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
