@@ -1,5 +1,6 @@
 from decimal import Decimal
 from io import BytesIO
+from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from django.contrib.auth import get_user_model
@@ -41,6 +42,18 @@ class DemoFixtureTests(TestCase):
             ProductVariant.objects.count(),
             Design.objects.count() * expected_per_design,
         )
+
+    def test_demo_media_can_be_installed_without_overwriting(self):
+        with TemporaryDirectory() as media_root:
+            with override_settings(MEDIA_ROOT=media_root):
+                call_command("install_demo_media", verbosity=0)
+                installed = list((Path(media_root) / "images").iterdir())
+                self.assertEqual(len(installed), 12)
+
+                first_image = installed[0]
+                original_contents = first_image.read_bytes()
+                call_command("install_demo_media", verbosity=0)
+                self.assertEqual(first_image.read_bytes(), original_contents)
 
 
 class ShopViewTests(TestCase):

@@ -87,9 +87,12 @@ To load the bundled portfolio catalog instead, run this against a fresh database
 ```powershell
 python manage.py loaddata shop_fixture.utf8.json
 python manage.py seed_demo_variants
+python manage.py install_demo_media
 ```
 
-The bundled product photographs are third-party demo assets; see
+The management command copies the bundled seed images into the configured
+`MEDIA_ROOT` without overwriting existing files. The product photographs are
+third-party demo assets; see
 [THIRD_PARTY_ASSETS.md](THIRD_PARTY_ASSETS.md) for their licensing context.
 
 ## Catalog administration
